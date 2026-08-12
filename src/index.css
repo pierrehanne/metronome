@@ -1,0 +1,158 @@
+@import 'tailwindcss';
+
+/*
+ * Design system.
+ *
+ * Every surface, border and accent is a CSS variable, so a theme is a single
+ * block of overrides and no component needs to know which theme is active.
+ */
+@theme {
+  --font-sans:
+    'Inter var', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-beat: var(--beat);
+  --color-danger: var(--danger);
+}
+
+:root,
+[data-theme='dark'] {
+  --surface: #0d0e11;
+  --surface-raised: #16181d;
+  --surface-sunken: #090a0c;
+  --line: #24272e;
+  --line-strong: #363a44;
+  --ink: #f2f4f8;
+  --ink-muted: #9ba2b0;
+  --ink-subtle: #6b7280;
+  --accent: #f5a524;
+  --accent-ink: #1a1206;
+  --beat: #4dd4ac;
+  --danger: #f45b5b;
+}
+
+/* True-black variant for OLED panels, where #000 saves power and looks deeper. */
+[data-theme='oled'] {
+  --surface: #000000;
+  --surface-raised: #0b0b0d;
+  --surface-sunken: #000000;
+  --line: #1c1c20;
+  --line-strong: #303036;
+  --ink: #ffffff;
+  --ink-muted: #a1a1aa;
+  --ink-subtle: #71717a;
+  --accent: #ffb020;
+  --accent-ink: #000000;
+  --beat: #34d399;
+  --danger: #ff6b6b;
+}
+
+[data-theme='light'] {
+  --surface: #f6f7f9;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eceef2;
+  --line: #dcdfe5;
+  --line-strong: #c2c7d0;
+  --ink: #14161a;
+  --ink-muted: #5a616e;
+  --ink-subtle: #7c828e;
+  --accent: #b45309;
+  --accent-ink: #ffffff;
+  --beat: #0f766e;
+  --danger: #b91c1c;
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+
+  html {
+    /* Prevents iOS from resizing the large BPM readout in landscape. */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+    /* Avoid rubber-band scrolling on a single-screen tool. */
+    overscroll-behavior: none;
+  }
+
+  /* A single, consistent focus treatment for every interactive element. */
+  :focus-visible {
+    @apply ring-accent ring-offset-surface rounded-sm ring-2 ring-offset-2 outline-none;
+  }
+
+  /* Touch targets should not flash a grey box on tap. */
+  button,
+  [role='button'] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Honour the OS setting; the beat flash is the only motion that matters. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Small caps label used throughout the panels. */
+  .label-eyebrow {
+    @apply text-ink-subtle text-[0.6875rem] font-semibold tracking-[0.14em] uppercase;
+  }
+
+  .panel {
+    @apply bg-surface-raised border-line rounded-xl border;
+  }
+
+  /*
+   * Range inputs: styled explicitly for both engines, since the default
+   * appearance differs enough to look broken next to the rest of the UI.
+   */
+  .slider {
+    @apply h-6 w-full cursor-pointer appearance-none bg-transparent;
+  }
+
+  .slider::-webkit-slider-runnable-track {
+    @apply bg-surface-sunken border-line h-1.5 rounded-full border;
+  }
+
+  .slider::-moz-range-track {
+    @apply bg-surface-sunken border-line h-1.5 rounded-full border;
+  }
+
+  .slider::-webkit-slider-thumb {
+    @apply bg-accent border-surface h-5 w-5 appearance-none rounded-full border-2;
+    margin-top: -0.4375rem;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.4);
+  }
+
+  .slider::-moz-range-thumb {
+    @apply bg-accent border-surface h-5 w-5 rounded-full border-2;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.4);
+  }
+}
+
+@layer utilities {
+  /* Tabular figures keep the BPM readout from shifting width as digits change. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+}
