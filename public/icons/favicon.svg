@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Metronome">
+  <rect width="64" height="64" rx="14" fill="#0d0e11" />
+  <!-- Metronome body: a tapered trapezoid, as on a hardware unit -->
+  <path d="M32 12 L46 50 H18 Z" fill="none" stroke="#f5a524" stroke-width="3.5" stroke-linejoin="round" />
+  <!-- Pendulum, swung off-centre -->
+  <line x1="32" y1="46" x2="41" y2="20" stroke="#4dd4ac" stroke-width="3" stroke-linecap="round" />
+  <circle cx="41" cy="20" r="3.5" fill="#4dd4ac" />
+</svg>
