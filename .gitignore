@@ -1,0 +1,23 @@
+node_modules
+dist
+dev-dist
+coverage
+*.local
+.DS_Store
+
+# Editors
+.claude
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Logs
+logs
+*.log
+npm-debug.log*
